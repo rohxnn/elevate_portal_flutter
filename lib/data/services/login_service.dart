@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:elevate_portal_flutter/core/config/env.dart';
 import 'package:elevate_portal_flutter/core/constants/api_endpoints.dart';
-import 'package:elevate_portal_flutter/data/models/login_model.dart';
+import 'package:elevate_portal_flutter/data/models/util_model.dart';
 import 'package:http/http.dart' as http;
 
 class LoginService {  
@@ -14,9 +14,9 @@ class LoginService {
       headers: { "origin": origin ?? "" },
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final json = jsonDecode(response.body);
-      return BrandingModel.fromJson(json);
+      return BrandingModel.fromJson(json['result']);
     } else {
       throw Exception("Failed to fetch branding: ${response.statusCode}");
     }
@@ -40,7 +40,7 @@ class LoginService {
       body: jsonEncode(requestBody),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final data = jsonDecode(response.body);
       return data;
     } else {
