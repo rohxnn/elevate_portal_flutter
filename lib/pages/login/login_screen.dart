@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:elevate_portal_flutter/core/constants/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -101,7 +102,6 @@ Future<void> _fetchBranding() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -136,6 +136,16 @@ Future<void> _fetchBranding() async {
                   ),
                   validator: (value) =>
                       value == null || value.isEmpty ? 'Please enter your password' : null,
+                ),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.forgotPassword);
+                  },
+                  child: const Text(
+                    'Forgot Password?',
+                    style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 _isLoading
