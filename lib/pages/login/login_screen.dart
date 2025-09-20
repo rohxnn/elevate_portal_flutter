@@ -94,7 +94,7 @@ Future<void> _fetchBranding() async {
     } catch (e) {
       setState(() => _isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login failed, please try again')),
+        SnackBar(content: Text('${e.toString()}')),
       );
     }
   }

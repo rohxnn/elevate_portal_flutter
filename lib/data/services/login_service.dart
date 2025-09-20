@@ -39,17 +39,44 @@ class LoginService {
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(requestBody),
     );
-
+    final data = jsonDecode(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      final data = jsonDecode(response.body);
+      
       return data;
     } else {
-      throw Exception("Failed to login: ${response.statusCode}");
+      throw Exception("${data?['message']}");
     }
   } catch (e) {
     print("Login error: $e");
     rethrow;
   }
 }
+
+Future<void> ResetPassword(String identifier, String password) async {
+  final apiUrl = Uri.parse(ApiEndpoints.sendForgetOtp);
+
+  final requestBody = {
+    "identifier": identifier,
+    "newPassword": password,
+  };
+
+  try {
+    final response = await http.post(
+      apiUrl,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(requestBody),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = jsonDecode(response.body);
+      return data;
+    } else {
+      throw Exception("Failed to reset password: ${response.statusCode}");
+    }
+  } catch (e) {
+    print("Reset password error: $e");
+    rethrow;
+  }
+  }
 
 }

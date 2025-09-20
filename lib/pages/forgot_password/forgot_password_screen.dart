@@ -1,3 +1,4 @@
+import 'package:elevate_portal_flutter/data/services/login_service.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -12,6 +13,37 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _emailController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final LoginService _loginService = LoginService();
+  bool _isLoading = false;
+
+  Future<void> forgotPassword() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      await _loginService.ResetPassword(
+        _emailController.text,
+        _newPasswordController.text,
+      );
+
+      setState(() {
+        _isLoading = false;
+      });
+
+       if (mounted) {
+        Navigator.pushReplacementNamed(context, '/reset-otp');
+      }
+
+    } catch (e) {
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Reset failed, please try again')),
+      );
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +105,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                },
+                onPressed: forgotPassword,
                 child: const Text('Reset Password'),
               ),
             ],
