@@ -31,8 +31,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         _isLoading = false;
       });
 
-       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/reset-otp');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/reset-otp', arguments: {
+          'identifier': _emailController.text,
+          'password': _newPasswordController.text,
+          'resendOtp': forgotPassword,
+        });
+
       }
 
     } catch (e) {

@@ -57,7 +57,7 @@ Future<void> ResetPassword(String identifier, String password) async {
 
   final requestBody = {
     "identifier": identifier,
-    "newPassword": password,
+    "password": password,
   };
 
   try {

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.home: (context) => const HomeScreen(),
         AppRoutes.login: (context) => const LoginScreen(),
         AppRoutes.forgotPassword: (context) => const ForgotPasswordScreen(),
-        AppRoutes.resetOtp: (context) => const OtpScreen(),
+        AppRoutes.resetOtp: (context) => OtpScreen(identifier: null,password: null, resendOtp: () {  },),
       },
 
     );
