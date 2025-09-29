@@ -22,7 +22,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await _loginService.ResetPassword(
+      await _loginService.resetPassword(
         _emailController.text,
         _newPasswordController.text,
       );
