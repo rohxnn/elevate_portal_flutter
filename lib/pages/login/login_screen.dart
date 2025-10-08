@@ -113,7 +113,7 @@ Future<void> _fetchBranding() async {
                 if (_isLoading && _branding == null)
                   const CircularProgressIndicator()
                 else if (_branding != null)
-                  Image.network(_branding!.logo, height: 150,fit: BoxFit.contain,)
+                  Image.asset('assets/images/SG_Logo.jpg', height: 150,fit: BoxFit.contain,)
                 else
                   const SizedBox(height: 150),
                 const SizedBox(height: 20),
