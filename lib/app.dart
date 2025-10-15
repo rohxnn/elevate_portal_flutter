@@ -1,20 +1,41 @@
 import 'package:elevate_portal_flutter/core/constants/app_colors.dart';
 import 'package:elevate_portal_flutter/core/constants/app_routes.dart';
+import 'package:elevate_portal_flutter/data/services/api_service.dart';
 import 'package:elevate_portal_flutter/pages/forgot_password/forgot_password_screen.dart';
 import 'package:elevate_portal_flutter/pages/home/home_screen.dart';
 import 'package:elevate_portal_flutter/pages/login/login_screen.dart';
 import 'package:elevate_portal_flutter/pages/otp/otp_screen.dart';
 import 'package:flutter/material.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
-  final bool isLoggedIn = false;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool? isLoggedIn;
+  final ApiService _apiService = ApiService();
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final token = await _apiService.getToken();
+    setState(() {
+      isLoggedIn = token != null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Welcome to shikshagraha',
-     theme: ThemeData(
+      theme: ThemeData(
         primaryColor: AppColors.primary,
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primary,
@@ -22,14 +43,19 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      initialRoute: isLoggedIn ? AppRoutes.home : AppRoutes.login,
-      routes:  {
+      home: isLoggedIn == null
+          ? const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            )
+          : isLoggedIn!
+              ? const HomeScreen()
+              : const LoginScreen(),
+      routes: {
         AppRoutes.home: (context) => const HomeScreen(),
         AppRoutes.login: (context) => const LoginScreen(),
         AppRoutes.forgotPassword: (context) => const ForgotPasswordScreen(),
-        AppRoutes.resetOtp: (context) => OtpScreen(identifier: null,password: null, resendOtp: () {  },),
+        AppRoutes.resetOtp: (context) => OtpScreen(identifier: null, password: null, resendOtp: () {}),
       },
-
     );
   }
 }
