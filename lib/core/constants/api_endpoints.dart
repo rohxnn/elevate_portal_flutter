@@ -13,6 +13,7 @@ class ApiEndpoints {
   static final String authRefresh = "/account/auth/refresh";
   static final String authLogout = "/account/auth/logout";
   static final String userAuth = "/user/auth";
+  
 
   static final String accountLogin = "/user/v1/account/login";
   static final String sendOtp = "/user/v1/account/registrationOtp";
@@ -25,6 +26,9 @@ class ApiEndpoints {
 
   static final String roleRead =
       "/entity-management/v1/entities/entityListBasedOnEntityType?entityType=professional_role";
+
+  static final String readHomeList = "/user/v1/organization-feature/read";
+
   static final String userCreate = "/interface/v1/account/create";
   static final String tenantRead = "/user/v1/public/branding";
   static String checkUser(String email) =>

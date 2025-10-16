@@ -2,8 +2,8 @@ import 'package:elevate_portal_flutter/core/constants/app_colors.dart';
 import 'package:elevate_portal_flutter/core/constants/app_routes.dart';
 import 'package:elevate_portal_flutter/data/services/api_service.dart';
 import 'package:elevate_portal_flutter/pages/forgot_password/forgot_password_screen.dart';
-import 'package:elevate_portal_flutter/pages/home/home_screen.dart';
 import 'package:elevate_portal_flutter/pages/login/login_screen.dart';
+import 'package:elevate_portal_flutter/pages/main_screen/main_screen.dart';
 import 'package:elevate_portal_flutter/pages/otp/otp_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -48,10 +48,10 @@ class _MyAppState extends State<MyApp> {
               body: Center(child: CircularProgressIndicator()),
             )
           : isLoggedIn!
-              ? const HomeScreen()
+              ? const MainScreen()
               : const LoginScreen(),
       routes: {
-        AppRoutes.home: (context) => const HomeScreen(),
+        AppRoutes.home: (context) => const MainScreen(),
         AppRoutes.login: (context) => const LoginScreen(),
         AppRoutes.forgotPassword: (context) => const ForgotPasswordScreen(),
         AppRoutes.resetOtp: (context) => OtpScreen(identifier: null, password: null, resendOtp: () {}),

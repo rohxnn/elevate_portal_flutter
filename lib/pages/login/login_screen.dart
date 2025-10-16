@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:elevate_portal_flutter/core/constants/app_routes.dart';
+import 'package:elevate_portal_flutter/pages/main_screen/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -89,7 +90,11 @@ Future<void> _fetchBranding() async {
       });
 
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const MainScreen()),
+);
+
       }
     } catch (e) {
       setState(() => _isLoading = false);
