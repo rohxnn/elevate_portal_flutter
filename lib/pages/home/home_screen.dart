@@ -63,10 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: cardData.length,
         itemBuilder: (context, index) {
           final feature = cardData[index];
-          final meta = feature['meta'];
-          if (meta != null && meta['icon'] != null) {
-            meta['icon'] = '${Env.publicBaseUrl}${meta['icon']}';
-          }
           return FeatureCard(feature: feature);
         },
       ),
