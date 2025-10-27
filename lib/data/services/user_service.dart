@@ -17,4 +17,14 @@ class UserService {
       throw Exception("Failed to fetch home list: ${response.statusCode}");
     }
   }
+
+  readProfileData() async {
+    final response = await _api.get(ApiEndpoints.userProfileRead);
+     if (response.statusCode == 200 || response.statusCode == 201) {
+      final json = jsonDecode(response.body);
+      return json;
+    } else {
+      throw Exception("Failed to fetch home list: ${response.statusCode}");
+    }
+  }
 }

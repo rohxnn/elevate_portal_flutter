@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Welcome to shikshagraha',
       theme: ThemeData(
         primaryColor: AppColors.primary,

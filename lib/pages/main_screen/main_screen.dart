@@ -1,5 +1,6 @@
 import 'package:elevate_portal_flutter/core/constants/app_colors.dart';
 import 'package:elevate_portal_flutter/pages/home/home_screen.dart';
+import 'package:elevate_portal_flutter/pages/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
     const HomeScreen(), 
-    const Center(child: Text('Profile Page')),
+    const Profile(),
     const Center(child: Text('Settings Page')),
   ];
 

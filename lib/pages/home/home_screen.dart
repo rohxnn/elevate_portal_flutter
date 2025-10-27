@@ -2,6 +2,7 @@ import 'package:elevate_portal_flutter/core/config/env.dart';
 import 'package:elevate_portal_flutter/core/constants/app_colors.dart';
 import 'package:elevate_portal_flutter/data/services/user_service.dart';
 import 'package:elevate_portal_flutter/pages/home/widgets/feature_card.dart';
+import 'package:elevate_portal_flutter/pages/widgets/top_bar/top_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (homeList != null && homeList['result'] != null) {
       List<Map<String, dynamic>> features = List<Map<String, dynamic>>.from(homeList['result']);
       features.sort((a, b) => (a['display_order'] ?? 0).compareTo(b['display_order'] ?? 0));
+      features = features.where((data) => data['enabled'] == true).toList();
       setState(() {
         cardData = features;
       });
@@ -36,30 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: AppBar(
-        title: Text(
-          'Home',
-          style: TextStyle(
-            color: AppColors.primary,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.3,
-            
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.transparent,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(
-            height: 1,
-            color: Colors.grey.shade200,
-          ),
-        ),
-      ),
-      body: ListView.builder(
+     appBar: TopBar(title: 'Home'),
+        body: ListView.builder(
         itemCount: cardData.length,
         itemBuilder: (context, index) {
           final feature = cardData[index];
