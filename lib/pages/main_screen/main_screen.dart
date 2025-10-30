@@ -14,8 +14,8 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
     const HomeScreen(), 
+    const Center(child: Text('Downloads Page')),
     const Profile(),
-    const Center(child: Text('Settings Page')),
   ];
 
   @override
@@ -60,15 +60,15 @@ class _MainScreenState extends State<MainScreen> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
+                icon: Icon(Icons.download_done_outlined),
+                activeIcon: Icon(Icons.download),
+                label: 'Downloads',
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline),
                 activeIcon: Icon(Icons.person),
                 label: 'Profile',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.settings_outlined),
-                activeIcon: Icon(Icons.settings),
-                label: 'Settings',
-              ),
+              )
             ],
           ),
         ),
