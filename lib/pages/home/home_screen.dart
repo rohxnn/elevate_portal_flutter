@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevate_portal_flutter/core/config/env.dart';
 import 'package:elevate_portal_flutter/core/constants/app_colors.dart';
 import 'package:elevate_portal_flutter/data/services/user_service.dart';
@@ -38,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: TopBar(title: 'Home'),
+     appBar: TopBar(title: 'HOME'.tr()),
         body: ListView.builder(
         itemCount: cardData.length,
         itemBuilder: (context, index) {

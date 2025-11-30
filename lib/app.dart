@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevate_portal_flutter/core/constants/app_colors.dart';
 import 'package:elevate_portal_flutter/core/constants/app_routes.dart';
 import 'package:elevate_portal_flutter/data/services/api_service.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool? isLoggedIn;
   final ApiService _apiService = ApiService();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
@@ -34,7 +36,11 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      key: ValueKey(context.locale.languageCode),
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       title: 'Welcome to shikshagraha',
       theme: ThemeData(
         primaryColor: AppColors.primary,
