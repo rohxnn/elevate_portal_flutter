@@ -4,5 +4,9 @@
     "LOGOUT" : "Logout",
     "PROFILE" : "Profile",
     "DOWNLOADS" : "Downloads",
-    "LOCATION_DETAILS": "Location Details"
+    "LOCATION_DETAILS": "Location Details",
+    "LANGUAGE_SETTING": "Language Settings",
+    "ACCOUNT_SETTING": "Account Settings",
+    "RESET_PASSWORD": "Reset Password",
+    "DELETE_ACCOUNT": "Delete Account"
 }

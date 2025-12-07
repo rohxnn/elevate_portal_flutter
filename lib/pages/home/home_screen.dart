@@ -37,16 +37,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-     appBar: TopBar(title: 'HOME'.tr()),
-        body: ListView.builder(
-        itemCount: cardData.length,
-        itemBuilder: (context, index) {
-          final feature = cardData[index];
-          return FeatureCard(feature: feature);
-        },
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: TopBar(title: 'HOME'.tr()),
+    body: GridView.builder(
+      padding: const EdgeInsets.all(8.0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, // 2 tiles per row
+        crossAxisSpacing: 8.0, // horizontal spacing between tiles
+        mainAxisSpacing: 8.0, // vertical spacing between tiles
+        childAspectRatio: 1.0, // adjust for tile height
       ),
-    );
-  }
+      itemCount: cardData.length,
+      itemBuilder: (context, index) {
+        final feature = cardData[index];
+        return SizedBox.expand(
+          child: FeatureCard(feature: feature),
+        );
+      },
+    ),
+  );
+}
 }

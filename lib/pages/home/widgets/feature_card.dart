@@ -1,56 +1,80 @@
-
 import 'package:elevate_portal_flutter/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class FeatureCard extends StatelessWidget {
-  final Map<String, dynamic> feature;
+  final Map feature;
 
   const FeatureCard({super.key, required this.feature});
 
   @override
   Widget build(BuildContext context) {
-    final meta = feature['meta'] as Map<String, dynamic>?;
-    final title = meta?['title'] as String? ?? feature['feature_name'] as String? ?? 'Unnamed Feature';
+    final meta = feature['meta'] as Map?;
+    final title = meta?['title'] as String? ??
+        feature['feature_name'] as String? ??
+        'Unnamed Feature';
     final iconUrl = meta?['icon'] as String?;
-    final theme = meta?['theme'] as Map<String, dynamic>?;
+    final theme = meta?['theme'] as Map?;
     final primaryColorString = theme?['primaryColor'] as String?;
     final primaryColor = primaryColorString != null
-        ? Color(int.parse(primaryColorString.substring(1, 7), radix: 16) + 0xFF000000)
+        ? Color(int.parse(primaryColorString.substring(1, 7), radix: 16) +
+            0xFF000000)
         : AppColors.primary;
 
     return Card(
-      elevation: 4.0,
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      elevation: 2.0,
+      margin: const EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(16.0),
       ),
       child: InkWell(
-        onTap: () {
-        },
-        child: Padding(
+        onTap: () {},
+        borderRadius: BorderRadius.circular(16.0),
+        child: Container(
           padding: const EdgeInsets.all(16.0),
-          child: Row(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (iconUrl != null)
-                Image.network(
-                  iconUrl,
-                  width: 40.0,
-                  height: 40.0,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.apps, size: 40.0, color: primaryColor);
-                  },
+              Container(
+                width: 60.0,
+                height: 60.0,
+                decoration: BoxDecoration(
+                  color: primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-              const SizedBox(width: 16.0),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: iconUrl != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(12.0),
+                        child: Image.network(
+                          iconUrl,
+                          width: 60.0,
+                          height: 60.0,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(
+                              Icons.apps,
+                              size: 32.0,
+                              color: primaryColor,
+                            );
+                          },
+                        ),
+                      )
+                    : Icon(
+                        Icons.apps,
+                        size: 32.0,
+                        color: primaryColor,
+                      ),
+              ),
+              const SizedBox(height: 12.0),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              Icon(Icons.arrow_forward_ios, color: Colors.grey.shade600),
             ],
           ),
         ),

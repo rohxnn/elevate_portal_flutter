@@ -4,5 +4,9 @@
     "LOGOUT": "लॉगआउट",
     "PROFILE": "प्रोफ़ाइल",
     "DOWNLOADS": "डाउनलोड्स",
-    "LOCATION_DETAILS": "स्थान विवरण"
+    "LOCATION_DETAILS": "स्थान विवरण",
+    "LANGUAGE_SETTING": "भाषा सेटिंग्स",
+    "ACCOUNT_SETTING": "खाता सेटिंग्स",
+    "RESET_PASSWORD": "पासवर्ड रीसेट करें",
+    "DELETE_ACCOUNT": "खाता हटाएं"
 }

@@ -232,8 +232,8 @@ class _ProfileState extends State<Profile> {
                         const SizedBox(height: 32),
 
                         // Language Settings
-                        const Text(
-                          'Language Settings',
+                        Text(
+                          'LANGUAGE_SETTING'.tr(),
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -269,8 +269,8 @@ class _ProfileState extends State<Profile> {
                         const SizedBox(height: 32),
 
                         // Action Buttons
-                        const Text(
-                          'Account Settings',
+                        Text(
+                          'ACCOUNT_SETTING'.tr(),
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -284,7 +284,7 @@ class _ProfileState extends State<Profile> {
                           child: ElevatedButton.icon(
                             onPressed: _showResetPasswordDialog,
                             icon: const Icon(Icons.lock_reset),
-                            label: const Text('Reset Password'),
+                            label:  Text('RESET_PASSWORD'.tr()),
                             style: ElevatedButton.styleFrom(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 16),
@@ -304,8 +304,8 @@ class _ProfileState extends State<Profile> {
                             onPressed: _showDeleteAccountDialog,
                             icon: const Icon(Icons.delete_forever,
                                 color: Colors.red),
-                            label: const Text(
-                              'Delete Account',
+                            label: Text(
+                              'DELETE_ACCOUNT'.tr(),
                               style: TextStyle(color: Colors.red),
                             ),
                             style: OutlinedButton.styleFrom(
