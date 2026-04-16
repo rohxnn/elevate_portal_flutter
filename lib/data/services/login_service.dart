@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:elevate_portal_flutter/core/config/env.dart';
 import 'package:elevate_portal_flutter/core/constants/api_endpoints.dart';
 import 'package:elevate_portal_flutter/data/models/util_model.dart';
 import 'api_service.dart'; // import the centralized service
@@ -18,7 +17,7 @@ class LoginService {
     }
   }
 
-  Future<void> login(String username, String password) async {
+  Future<Map<String, dynamic>> login(String username, String password) async {
     final isMobile = RegExp(r'^[6-9]\d{9}$').hasMatch(username);
 
     final requestBody = {
@@ -29,12 +28,12 @@ class LoginService {
 
     try {
       final response = await _api.post(ApiEndpoints.accountLogin, requestBody);
-      final data = jsonDecode(response.body);
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return data;
       } else {
-        throw Exception("${data?['message']}");
+        throw Exception("${data['message']}");
       }
     } catch (e) {
       print("Login error: $e");

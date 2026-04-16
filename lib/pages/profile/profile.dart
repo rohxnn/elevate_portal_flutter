@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevate_portal_flutter/core/widgets/confirmation_dialog/confirmation_dialog.dart';
+import 'package:elevate_portal_flutter/data/services/api_service.dart';
 import 'package:elevate_portal_flutter/data/services/user_service.dart';
 import 'package:elevate_portal_flutter/pages/widgets/top_bar/top_bar.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final UserService _userService = UserService();
+  final ApiService _apiService = ApiService();
   Map<String, dynamic>? profileData;
   bool isLoading = true;
 
@@ -39,10 +41,10 @@ class _ProfileState extends State<Profile> {
   void _showResetPasswordDialog() {
     ConfirmationDialog.show(
       context: context,
-      title: 'Reset Password',
-      content: 'Are you sure you want to reset your password? You will receive a password reset link via email.',
-      confirmText: 'Reset',
-      cancelText: 'Cancel',
+      title: 'RESET_PASSWORD'.tr(),
+      content: 'RESET_PASSWORD_CONFIRMATION'.tr(),
+      confirmText: 'RESET'.tr(),
+      cancelText: 'CANCEL'.tr(),
       icon: Icons.lock_reset,
       isDangerous: false,
       onConfirm: () {},
@@ -52,17 +54,39 @@ class _ProfileState extends State<Profile> {
   void _showDeleteAccountDialog() {
     ConfirmationDialog.show(
       context: context,
-      title: 'Delete Account',
-      content:
-          'Are you sure you want to delete your account? This action cannot be undone.',
-      confirmText: 'Delete',
-      cancelText: 'Cancel',
+      title: 'DELETE_ACCOUNT'.tr(),
+      content: 'DELETE_ACCOUNT_CONFIRMATION'.tr(),
+      confirmText: 'DELETE'.tr(),
+      cancelText: 'CANCEL'.tr(),
       icon: Icons.delete_forever,
       isDangerous: true,
       onConfirm: () {},
     );
   }
 
+  void _showLogoutDialog() {
+    ConfirmationDialog.show(
+      context: context,
+      title: 'LOGOUT'.tr(),
+      content: 'LOGOUT_CONFIRMATION'.tr(),
+      confirmText: 'LOGOUT'.tr(),
+      cancelText: 'CANCEL'.tr(),
+      icon: Icons.logout,
+      isDangerous: true,
+      onConfirm: _handleLogout,
+    );
+  }
+
+  Future<void> _handleLogout() async {
+    try {
+      await _apiService.logout();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('LOGOUT_FAILED'.tr())));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +105,7 @@ class _ProfileState extends State<Profile> {
                         end: Alignment.bottomRight,
                         colors: [
                           Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor.withOpacity(0.7),
+                          Theme.of(context).primaryColor.withValues(alpha: 0.7),
                         ],
                       ),
                     ),
@@ -94,7 +118,7 @@ class _ProfileState extends State<Profile> {
                             border: Border.all(color: Colors.white, width: 4),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
+                                color: Colors.black.withValues(alpha: 0.2),
                                 blurRadius: 10,
                                 offset: const Offset(0, 5),
                               ),
@@ -103,14 +127,14 @@ class _ProfileState extends State<Profile> {
                           child: CircleAvatar(
                             radius: 60,
                             backgroundColor: Colors.white,
-                            backgroundImage: profileData?['image'] != null &&
+                            backgroundImage:
+                                profileData?['image'] != null &&
                                     profileData!['image'].toString().isNotEmpty
                                 ? NetworkImage(profileData!['image'])
                                 : null,
-                            child: profileData?['image'] == null ||
-                                    profileData!['image']
-                                        .toString()
-                                        .isEmpty
+                            child:
+                                profileData?['image'] == null ||
+                                    profileData!['image'].toString().isEmpty
                                 ? Text(
                                     profileData?['name']
                                             ?.toString()
@@ -179,7 +203,8 @@ class _ProfileState extends State<Profile> {
                                 _buildInfoRow(
                                   icon: Icons.location_city,
                                   label: 'State',
-                                  value: profileData?['state']?['label']
+                                  value:
+                                      profileData?['state']?['label']
                                           ?.toString() ??
                                       'Not available',
                                 ),
@@ -187,7 +212,8 @@ class _ProfileState extends State<Profile> {
                                 _buildInfoRow(
                                   icon: Icons.map,
                                   label: 'District',
-                                  value: profileData?['district']?['label']
+                                  value:
+                                      profileData?['district']?['label']
                                           ?.toString() ??
                                       'Not available',
                                 ),
@@ -195,7 +221,8 @@ class _ProfileState extends State<Profile> {
                                 _buildInfoRow(
                                   icon: Icons.location_on,
                                   label: 'Block',
-                                  value: profileData?['block']?['label']
+                                  value:
+                                      profileData?['block']?['label']
                                           ?.toString() ??
                                       'Not available',
                                 ),
@@ -203,7 +230,8 @@ class _ProfileState extends State<Profile> {
                                 _buildInfoRow(
                                   icon: Icons.hub,
                                   label: 'Cluster',
-                                  value: profileData?['cluster']?['label']
+                                  value:
+                                      profileData?['cluster']?['label']
                                           ?.toString() ??
                                       'Not available',
                                 ),
@@ -211,7 +239,8 @@ class _ProfileState extends State<Profile> {
                                 _buildInfoRow(
                                   icon: Icons.school,
                                   label: 'School',
-                                  value: profileData?['school']?['label']
+                                  value:
+                                      profileData?['school']?['label']
                                           ?.toString() ??
                                       'Not available',
                                 ),
@@ -219,8 +248,8 @@ class _ProfileState extends State<Profile> {
                                 _buildInfoRow(
                                   icon: Icons.work,
                                   label: 'Professional Role',
-                                  value: profileData?['professional_role']
-                                          ?['label']
+                                  value:
+                                      profileData?['professional_role']?['label']
                                           ?.toString() ??
                                       'Not available',
                                 ),
@@ -241,31 +270,33 @@ class _ProfileState extends State<Profile> {
                         ),
                         const SizedBox(height: 16),
                         Card(
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ChoiceChip(
-                                label: const Text('English'),
-                                selected: context.locale.languageCode == 'en',
-                                onSelected: (_) {
-                                  context.setLocale(const Locale('en'));
-                                },
-                              ),
-                              ChoiceChip(
-                                label: const Text('हिंदी'),
-                                selected: context.locale.languageCode == 'hi',
-                                onSelected: (_) {
-                                  context.setLocale(const Locale('hi'));
-                                },
-                              ),
-                            ],
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                ChoiceChip(
+                                  label: const Text('English'),
+                                  selected: context.locale.languageCode == 'en',
+                                  onSelected: (_) {
+                                    context.setLocale(const Locale('en'));
+                                  },
+                                ),
+                                ChoiceChip(
+                                  label: const Text('हिंदी'),
+                                  selected: context.locale.languageCode == 'hi',
+                                  onSelected: (_) {
+                                    context.setLocale(const Locale('hi'));
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
                         const SizedBox(height: 32),
 
                         // Action Buttons
@@ -284,10 +315,9 @@ class _ProfileState extends State<Profile> {
                           child: ElevatedButton.icon(
                             onPressed: _showResetPasswordDialog,
                             icon: const Icon(Icons.lock_reset),
-                            label:  Text('RESET_PASSWORD'.tr()),
+                            label: Text('RESET_PASSWORD'.tr()),
                             style: ElevatedButton.styleFrom(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 16),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -302,16 +332,45 @@ class _ProfileState extends State<Profile> {
                           width: double.infinity,
                           child: OutlinedButton.icon(
                             onPressed: _showDeleteAccountDialog,
-                            icon: const Icon(Icons.delete_forever,
-                                color: Colors.red),
+                            icon: const Icon(
+                              Icons.delete_forever,
+                              color: Colors.red,
+                            ),
                             label: Text(
                               'DELETE_ACCOUNT'.tr(),
                               style: TextStyle(color: Colors.red),
                             ),
                             style: OutlinedButton.styleFrom(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 16),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
                               side: const BorderSide(color: Colors.red),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            onPressed: _showLogoutDialog,
+                            icon: Icon(
+                              Icons.logout,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            label: Text(
+                              'LOGOUT'.tr(),
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              side: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -339,14 +398,10 @@ class _ProfileState extends State<Profile> {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(
-            icon,
-            color: Theme.of(context).primaryColor,
-            size: 24,
-          ),
+          child: Icon(icon, color: Theme.of(context).primaryColor, size: 24),
         ),
         const SizedBox(width: 16),
         Expanded(

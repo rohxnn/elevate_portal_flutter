@@ -7,6 +7,7 @@ import 'package:elevate_portal_flutter/pages/login/login_screen.dart';
 import 'package:elevate_portal_flutter/pages/main_screen/main_screen.dart';
 import 'package:elevate_portal_flutter/pages/otp/otp_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -23,19 +24,24 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    ApiService.navigatorKey = navigatorKey;
     _checkLoginStatus();
   }
 
   Future<void> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedLoginState = prefs.getBool('is_logged_in');
     final token = await _apiService.getToken();
+
     setState(() {
-      isLoggedIn = token != null;
+      isLoggedIn = storedLoginState ?? token != null;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -50,17 +56,16 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: isLoggedIn == null
-          ? const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            )
+          ? const Scaffold(body: Center(child: CircularProgressIndicator()))
           : isLoggedIn!
-              ? const MainScreen()
-              : const LoginScreen(),
+          ? const MainScreen()
+          : const LoginScreen(),
       routes: {
         AppRoutes.home: (context) => const MainScreen(),
         AppRoutes.login: (context) => const LoginScreen(),
         AppRoutes.forgotPassword: (context) => const ForgotPasswordScreen(),
-        AppRoutes.resetOtp: (context) => OtpScreen(identifier: null, password: null, resendOtp: () {}),
+        AppRoutes.resetOtp: (context) =>
+            OtpScreen(identifier: null, password: null, resendOtp: () {}),
       },
     );
   }

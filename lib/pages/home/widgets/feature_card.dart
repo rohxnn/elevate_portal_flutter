@@ -1,4 +1,5 @@
 import 'package:elevate_portal_flutter/core/constants/app_colors.dart';
+import 'package:elevate_portal_flutter/pages/home/web_view_screen.dart';
 import 'package:flutter/material.dart';
 
 class FeatureCard extends StatelessWidget {
@@ -21,15 +22,44 @@ class FeatureCard extends StatelessWidget {
         : AppColors.primary;
 
     return Card(
+      color: Colors.white,
       elevation: 2.0,
       margin: const EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          // Extract URL from feature metadata
+          final url = meta?['url'] as String?;
+          
+          if (url != null && url.isNotEmpty) {
+            // Navigate to web view screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WebViewScreen(
+                  url: url,
+                  title: title,
+                ),
+              ),
+            );
+          } else {
+            // Show error if no URL is available
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('No URL available for this feature'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
+        },
         borderRadius: BorderRadius.circular(16.0),
         child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16.0),
+          ),
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +68,7 @@ class FeatureCard extends StatelessWidget {
                 width: 60.0,
                 height: 60.0,
                 decoration: BoxDecoration(
-                  color: primaryColor.withOpacity(0.1),
+                  color: primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: iconUrl != null
